@@ -38,46 +38,46 @@ export default function CategoryScroll({
   }
 
   return (
-    <section className="bg-white py-6 border-b sticky top-0 z-10 shadow-sm">
+    <section className="bg-white py-4 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide">
           {allCategories.map((category) => {
             const isSelected = selectedCategory === category.slug;
             return (
               <button
                 key={category._id}
                 onClick={() => onCategorySelect(category.slug)}
-                className={`flex-shrink-0 flex flex-col items-center gap-2 transition-all ${
-                  isSelected ? "scale-105" : ""
+                className={`flex-shrink-0 transition-transform ${
+                  isSelected ? "scale-110" : "hover:scale-105"
                 }`}
                 data-testid={`button-category-scroll-${category.slug}`}
               >
-                <div
-                  className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                    isSelected
-                      ? "border-primary shadow-lg"
-                      : "border-gray-200 hover:border-primary/50"
-                  }`}
-                >
-                  {category.imageUrl ? (
-                    <img
-                      src={category.imageUrl}
-                      alt={category.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
-                      <span className="text-2xl">✨</span>
-                    </div>
-                  )}
+                <div className="flex flex-col items-center gap-1">
+                  <div
+                    className={`w-16 h-16 rounded-full overflow-hidden ${
+                      isSelected ? "ring-2 ring-primary ring-offset-2" : ""
+                    }`}
+                  >
+                    {category.imageUrl ? (
+                      <img
+                        src={category.imageUrl}
+                        alt={category.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
+                        <span className="text-xl">✨</span>
+                      </div>
+                    )}
+                  </div>
+                  <span
+                    className={`text-xs font-medium ${
+                      isSelected ? "text-primary" : "text-gray-700"
+                    }`}
+                  >
+                    {category.name}
+                  </span>
                 </div>
-                <span
-                  className={`text-sm font-medium transition-colors ${
-                    isSelected ? "text-primary" : "text-gray-700"
-                  }`}
-                >
-                  {category.name}
-                </span>
               </button>
             );
           })}
