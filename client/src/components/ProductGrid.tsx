@@ -77,7 +77,7 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
             <div className="h-10 w-64 bg-muted animate-pulse rounded mx-auto mb-2" />
             <div className="h-4 w-48 bg-muted animate-pulse rounded mx-auto" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {[...Array(8)].map((_, i) => (
               <Card key={i} className="overflow-hidden">
                 <div className="aspect-[3/4] bg-muted animate-pulse" />
@@ -117,7 +117,7 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
         {/* Products Grid */}
         {filteredProducts && filteredProducts.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               {filteredProducts.map((product) => (
                 <Card
                   key={product._id}
