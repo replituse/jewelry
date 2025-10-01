@@ -6,6 +6,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 import SearchBar from "@/components/SearchBar";
 import FilterDrawer from "@/components/FilterDrawer";
 import FilterBar from "@/components/FilterBar";
+import CategoryGrid from "@/components/CategoryGrid";
 import ProductGrid from "@/components/ProductGrid";
 import Footer from "@/components/Footer";
 
@@ -62,6 +63,10 @@ export default function Catalog() {
           onPriceRangeChange={setPriceRange}
         />
         <FilterBar
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+        />
+        <CategoryGrid
           selectedCategory={selectedCategory}
           onCategorySelect={setSelectedCategory}
         />
