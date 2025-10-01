@@ -48,7 +48,8 @@ export default function CategoryGrid({
               transition={{ duration: 0.4, delay: index * 0.1 }}
               whileHover={{ y: -8 }}
               onClick={() => onCategorySelect(category.slug)}
-              className="flex-shrink-0 w-64 cursor-pointer snap-center"
+              className="flex-shrink-0 w-64 cursor-pointer snap-center group"
+              data-testid={`category-card-${category.slug}`}
             >
               <div className="relative bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-primary/20">
                 {/* Decorative Mandala Frame */}
