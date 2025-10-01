@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import SideDrawer from "@/components/SideDrawer";
 import ImageCarousel from "@/components/ImageCarousel";
 import SearchBar from "@/components/SearchBar";
-import FilterDrawer from "@/components/FilterDrawer";
+import FilterDrawer, { FilterOptions } from "@/components/FilterDrawer";
 import FilterBar from "@/components/FilterBar";
 import CategoryGrid from "@/components/CategoryGrid";
 import ProductGrid from "@/components/ProductGrid";
@@ -16,6 +16,13 @@ export default function Catalog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
+  const [filters, setFilters] = useState<FilterOptions>({
+    purity: [],
+    weight: [],
+    stone: [],
+    gender: [],
+    occasion: [],
+  });
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,6 +81,7 @@ export default function Catalog() {
           selectedCategory={selectedCategory}
           searchQuery={searchQuery}
           priceRange={priceRange}
+          filters={filters}
         />
         <Footer />
       </motion.div>
@@ -83,6 +91,8 @@ export default function Catalog() {
         onClose={() => setShowFilterDialog(false)}
         priceRange={priceRange}
         onPriceRangeChange={setPriceRange}
+        filters={filters}
+        onFiltersChange={setFilters}
       />
     </>
   );

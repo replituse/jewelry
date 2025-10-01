@@ -2,13 +2,24 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
+
+export interface FilterOptions {
+  purity: string[];
+  weight: string[];
+  stone: string[];
+  gender: string[];
+  occasion: string[];
+}
 
 interface FilterDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   priceRange: [number, number];
   onPriceRangeChange: (range: [number, number]) => void;
+  filters: FilterOptions;
+  onFiltersChange: (filters: FilterOptions) => void;
 }
 
 export default function FilterDrawer({
@@ -16,13 +27,28 @@ export default function FilterDrawer({
   onClose,
   priceRange,
   onPriceRangeChange,
+  filters,
+  onFiltersChange,
 }: FilterDrawerProps) {
   const handlePriceChange = (value: number[]) => {
     onPriceRangeChange([value[0], value[1]]);
   };
 
+  const handleCheckboxChange = (filterType: keyof FilterOptions, value: string, checked: boolean) => {
+    const updatedFilters = { ...filters };
+    if (checked) {
+      if (!updatedFilters[filterType].includes(value)) {
+        updatedFilters[filterType] = [...updatedFilters[filterType], value];
+      }
+    } else {
+      updatedFilters[filterType] = updatedFilters[filterType].filter((v) => v !== value);
+    }
+    onFiltersChange(updatedFilters);
+  };
+
   const handleResetFilters = () => {
     onPriceRangeChange([0, 500000]);
+    onFiltersChange({ purity: [], weight: [], stone: [], gender: [], occasion: [] });
   };
 
   return (
@@ -88,6 +114,101 @@ export default function FilterDrawer({
                     <div className="flex justify-between text-xs text-muted-foreground mt-2">
                       <span>₹0</span>
                       <span>₹5,00,000</span>
+                    </div>
+                  </div>
+
+                  {/* Purity/Karat Filter */}
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block">Purity / Karat</Label>
+                    <div className="space-y-2">
+                      {["22K", "18K", "14K", "24K"].map((purity) => (
+                        <div key={purity} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`purity-${purity}`}
+                            checked={filters.purity.includes(purity)}
+                            onCheckedChange={(checked) => handleCheckboxChange("purity", purity, checked as boolean)}
+                          />
+                          <label htmlFor={`purity-${purity}`} className="text-sm cursor-pointer">
+                            {purity}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Weight Range Filter */}
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block">Weight Range</Label>
+                    <div className="space-y-2">
+                      {["<5g", "5g-10g", "10g-20g", "20g+"].map((weight) => (
+                        <div key={weight} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`weight-${weight}`}
+                            checked={filters.weight.includes(weight)}
+                            onCheckedChange={(checked) => handleCheckboxChange("weight", weight, checked as boolean)}
+                          />
+                          <label htmlFor={`weight-${weight}`} className="text-sm cursor-pointer">
+                            {weight}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stone/Gem Filter */}
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block">Stone / Gem</Label>
+                    <div className="space-y-2">
+                      {["Diamond", "Emerald", "Ruby", "Sapphire", "Pearl", "None"].map((stone) => (
+                        <div key={stone} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`stone-${stone}`}
+                            checked={filters.stone.includes(stone)}
+                            onCheckedChange={(checked) => handleCheckboxChange("stone", stone, checked as boolean)}
+                          />
+                          <label htmlFor={`stone-${stone}`} className="text-sm cursor-pointer">
+                            {stone}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Gender Filter */}
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block">Gender</Label>
+                    <div className="space-y-2">
+                      {["Men", "Women", "Kids"].map((gender) => (
+                        <div key={gender} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`gender-${gender}`}
+                            checked={filters.gender.includes(gender)}
+                            onCheckedChange={(checked) => handleCheckboxChange("gender", gender, checked as boolean)}
+                          />
+                          <label htmlFor={`gender-${gender}`} className="text-sm cursor-pointer">
+                            {gender}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Occasion Filter */}
+                  <div>
+                    <Label className="text-sm font-medium mb-3 block">Occasion</Label>
+                    <div className="space-y-2">
+                      {["Daily Wear", "Bridal", "Office Wear", "Festive"].map((occasion) => (
+                        <div key={occasion} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`occasion-${occasion}`}
+                            checked={filters.occasion.includes(occasion)}
+                            onCheckedChange={(checked) => handleCheckboxChange("occasion", occasion, checked as boolean)}
+                          />
+                          <label htmlFor={`occasion-${occasion}`} className="text-sm cursor-pointer">
+                            {occasion}
+                          </label>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
