@@ -28,6 +28,11 @@ export const productSchema = z.object({
   featured: z.boolean().default(false),
   inStock: z.boolean().default(true),
   displayOrder: z.number().default(0),
+  purity: z.string().optional(),
+  weight: z.string().optional(),
+  stone: z.string().optional(),
+  gender: z.string().optional(),
+  occasion: z.string().optional(),
 });
 
 export const insertProductSchema = productSchema.omit({ _id: true });
