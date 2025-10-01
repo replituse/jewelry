@@ -17,13 +17,13 @@ export default function CategoryGrid({
 
   if (isLoading) {
     return (
-      <section className="py-12 bg-background">
+      <section className="py-8 bg-gradient-to-br from-amber-50/30 via-white to-orange-50/30">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-4">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="h-80 bg-muted animate-pulse rounded-lg"
+                className="flex-shrink-0 w-64 h-80 bg-muted animate-pulse rounded-xl"
               />
             ))}
           </div>
@@ -37,61 +37,89 @@ export default function CategoryGrid({
     : (categories || []).filter(cat => cat.slug === selectedCategory);
 
   return (
-    <section className="py-12 bg-background" id="categories-section">
+    <section className="py-8 bg-gradient-to-br from-amber-50/30 via-white to-orange-50/30" id="categories-section">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-4 snap-x snap-mandatory">
           {filteredCategories.map((category, index) => (
             <motion.div
               key={category._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
               onClick={() => onCategorySelect(category.slug)}
-              className="group cursor-pointer"
+              className="flex-shrink-0 w-64 cursor-pointer snap-center"
             >
-              <div className="relative h-80 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                {/* Golden Mandala Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-50">
-                  <div className="absolute inset-0 opacity-20">
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                      <defs>
-                        <pattern id={`mandala-${category._id}`} x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                          <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="1" className="text-primary" />
-                          <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="1" className="text-primary" />
-                          <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" strokeWidth="1" className="text-primary" />
-                          <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" strokeWidth="1" className="text-primary" />
-                          {[...Array(8)].map((_, i) => (
-                            <line
-                              key={i}
-                              x1="100"
-                              y1="100"
-                              x2={100 + 80 * Math.cos((i * Math.PI) / 4)}
-                              y2={100 + 80 * Math.sin((i * Math.PI) / 4)}
-                              stroke="currentColor"
-                              strokeWidth="0.5"
-                              className="text-primary"
-                            />
-                          ))}
-                        </pattern>
-                      </defs>
-                      <rect width="200" height="200" fill={`url(#mandala-${category._id})`} />
-                    </svg>
+              <div className="relative bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-primary/20">
+                {/* Decorative Mandala Frame */}
+                <div className="relative h-64 flex items-center justify-center p-8">
+                  {/* SVG Mandala Frame */}
+                  <svg
+                    viewBox="0 0 300 300"
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <defs>
+                      <linearGradient id={`gold-${category._id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#D4AF37", stopOpacity: 0.8 }} />
+                        <stop offset="50%" style={{ stopColor: "#FFD700", stopOpacity: 0.6 }} />
+                        <stop offset="100%" style={{ stopColor: "#B8860B", stopOpacity: 0.8 }} />
+                      </linearGradient>
+                    </defs>
+                    
+                    {/* Outer Decorative Petals - 8 petals like lotus */}
+                    {[...Array(8)].map((_, i) => {
+                      const angle = (i * 45) * (Math.PI / 180);
+                      const x = 150 + Math.cos(angle) * 120;
+                      const y = 150 + Math.sin(angle) * 120;
+                      return (
+                        <ellipse
+                          key={`outer-petal-${i}`}
+                          cx={x}
+                          cy={y}
+                          rx="30"
+                          ry="45"
+                          fill={`url(#gold-${category._id})`}
+                          transform={`rotate(${i * 45} ${x} ${y})`}
+                          opacity="0.9"
+                        />
+                      );
+                    })}
+                    
+                    {/* Middle ring of petals */}
+                    {[...Array(8)].map((_, i) => {
+                      const angle = (i * 45 + 22.5) * (Math.PI / 180);
+                      const x = 150 + Math.cos(angle) * 95;
+                      const y = 150 + Math.sin(angle) * 95;
+                      return (
+                        <ellipse
+                          key={`mid-petal-${i}`}
+                          cx={x}
+                          cy={y}
+                          rx="20"
+                          ry="35"
+                          fill={`url(#gold-${category._id})`}
+                          transform={`rotate(${i * 45 + 22.5} ${x} ${y})`}
+                          opacity="0.7"
+                        />
+                      );
+                    })}
+                    
+                    {/* Decorative circles */}
+                    <circle cx="150" cy="150" r="100" fill="none" stroke={`url(#gold-${category._id})`} strokeWidth="2" opacity="0.6" />
+                    <circle cx="150" cy="150" r="80" fill="none" stroke={`url(#gold-${category._id})`} strokeWidth="1.5" opacity="0.5" />
+                    
+                    {/* Center white circle for image */}
+                    <circle cx="150" cy="150" r="70" fill="white" stroke={`url(#gold-${category._id})`} strokeWidth="3" />
+                  </svg>
+                  
+                  {/* Jewelry Image in Center */}
+                  <div className="relative z-10 w-32 h-32 rounded-full overflow-hidden shadow-xl ring-2 ring-primary/30">
+                    <img
+                      src={category.imageUrl || `https://via.placeholder.com/200x200?text=${category.name.charAt(0)}`}
+                      alt={category.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                </div>
-
-                {/* Category Image */}
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  {category.icon ? (
-                    <div className="text-8xl opacity-90 group-hover:scale-110 transition-transform duration-300">
-                      {category.icon}
-                    </div>
-                  ) : (
-                    <div className="w-40 h-40 bg-gradient-to-br from-primary/20 to-primary/40 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-4xl font-serif font-bold text-primary">
-                        {category.name.charAt(0)}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Gold Border */}
