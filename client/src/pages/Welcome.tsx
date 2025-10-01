@@ -37,24 +37,27 @@ export default function Welcome() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        className="absolute inset-0 flex flex-col items-center justify-center z-10 px-4"
+        className="absolute inset-0 flex flex-col items-center justify-between z-10 px-4 py-12"
       >
-        <h1
-          className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-4 text-white tracking-wide text-shadow-lg"
-          data-testid="text-welcome-title"
-        >
-          <span className="text-primary">Jewelry</span> Catalog
-        </h1>
-        <p
-          className="font-display text-xl md:text-2xl text-white text-center mb-12 max-w-2xl text-shadow-md"
-          data-testid="text-welcome-subtitle"
-        >
-          Discover Timeless Elegance and Exquisite Craftsmanship
-        </p>
+        <div className="text-center mt-12">
+          <h1
+            className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-4 text-white tracking-wide text-shadow-lg"
+            data-testid="text-welcome-title"
+          >
+            <span className="text-primary">Jewelry</span> Catalog
+          </h1>
+          <p
+            className="font-display text-xl md:text-2xl text-white text-center max-w-2xl text-shadow-md"
+            data-testid="text-welcome-subtitle"
+          >
+            Discover Timeless Elegance and Exquisite Craftsmanship
+          </p>
+        </div>
 
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          className="mb-12"
         >
           <Button
             onClick={handleExploreCatalog}
