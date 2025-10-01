@@ -20,7 +20,7 @@ export default function CategoryScroll({
       _id: "all", 
       name: "All Jewelry", 
       slug: "all",
-      imageUrl: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=300&fit=crop"
+      imageUrl: "/attached_assets/image_1759340062815.png"
     },
     ...(categories || []),
   ];
