@@ -1,5 +1,6 @@
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 interface HeaderProps {
   isMenuOpen: boolean;
@@ -12,10 +13,12 @@ export default function Header({ isMenuOpen, toggleMenu }: HeaderProps) {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="w-10" />
 
-        <h1 className="font-serif text-2xl md:text-3xl font-bold text-center flex-1" data-testid="text-brand-name">
-          <span className="text-primary">Jewelry</span>{" "}
-          <span className="text-foreground">Catalog</span>
-        </h1>
+        <Link href="/">
+          <h1 className="font-serif text-2xl md:text-3xl font-bold text-center flex-1 cursor-pointer" data-testid="text-brand-name">
+            <span className="text-primary">Jewelry</span>{" "}
+            <span className="text-foreground">Catalog</span>
+          </h1>
+        </Link>
 
         <Button
           variant="ghost"

@@ -62,10 +62,10 @@ export default function Catalog() {
           priceRange={priceRange}
           onPriceRangeChange={setPriceRange}
         />
-        <FilterBar
+        {/* <FilterBar
           selectedCategory={selectedCategory}
           onCategorySelect={setSelectedCategory}
-        />
+        /> */}
         <CategoryGrid
           selectedCategory={selectedCategory}
           onCategorySelect={setSelectedCategory}
@@ -77,7 +77,7 @@ export default function Catalog() {
         />
         <Footer />
       </motion.div>
-      
+
       <FilterDrawer
         isOpen={showFilterDialog}
         onClose={() => setShowFilterDialog(false)}

@@ -49,7 +49,10 @@ export default function CategoryGrid({
               <div className="relative bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <div className="aspect-[4/5] relative">
                   <img
-                    src={category.imageUrl || `https://via.placeholder.com/200x250?text=${category.name}`}
+                    src={
+                      category.imageUrl ||
+                      `https://via.placeholder.com/200x250?text=${category.name}`
+                    }
                     alt={category.name}
                     className="w-full h-full object-cover"
                   />
