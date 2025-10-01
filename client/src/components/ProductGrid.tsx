@@ -4,15 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Product } from "@shared/schema";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import type { FilterOptions } from "@/components/FilterDrawer";
+import ProductDetailsDialog from "@/components/ProductDetailsDialog";
 
 interface ProductGridProps {
   selectedCategory: string;
   searchQuery?: string;
   priceRange?: [number, number];
+  filters?: FilterOptions;
 }
 
-export default function ProductGrid({ selectedCategory, searchQuery = "", priceRange }: ProductGridProps) {
+export default function ProductGrid({ selectedCategory, searchQuery = "", priceRange, filters }: ProductGridProps) {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDialogOpen(true);
+  };
   const { data: products, isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products", selectedCategory],
     queryFn: async () => {
@@ -28,7 +38,7 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
     },
   });
 
-  // Filter products based on search query and price range
+  // Filter products based on search query, price range, and other filters
   const filteredProducts = useMemo(() => {
     if (!products) return [];
 
@@ -52,8 +62,43 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
       );
     }
 
+    // Apply purity filter
+    if (filters?.purity && filters.purity.length > 0) {
+      filtered = filtered.filter((product) => 
+        product.purity && filters.purity.includes(product.purity)
+      );
+    }
+
+    // Apply weight filter
+    if (filters?.weight && filters.weight.length > 0) {
+      filtered = filtered.filter((product) => 
+        product.weight && filters.weight.includes(product.weight)
+      );
+    }
+
+    // Apply stone filter
+    if (filters?.stone && filters.stone.length > 0) {
+      filtered = filtered.filter((product) => 
+        product.stone && filters.stone.includes(product.stone)
+      );
+    }
+
+    // Apply gender filter
+    if (filters?.gender && filters.gender.length > 0) {
+      filtered = filtered.filter((product) => 
+        product.gender && filters.gender.includes(product.gender)
+      );
+    }
+
+    // Apply occasion filter
+    if (filters?.occasion && filters.occasion.length > 0) {
+      filtered = filtered.filter((product) => 
+        product.occasion && filters.occasion.includes(product.occasion)
+      );
+    }
+
     return filtered;
-  }, [products, searchQuery, priceRange]);
+  }, [products, searchQuery, priceRange, filters]);
 
   const getCategoryName = (slug: string): string => {
     const categoryNames: Record<string, string> = {
@@ -123,6 +168,7 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
                   key={product._id}
                   className="product-card overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all"
                   data-testid={`card-product-${product._id}`}
+                  onClick={() => handleProductClick(product)}
                 >
                   <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                     <img
@@ -213,6 +259,12 @@ export default function ProductGrid({ selectedCategory, searchQuery = "", priceR
           </div>
         )}
       </div>
+
+      <ProductDetailsDialog
+        product={selectedProduct}
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      />
     </section>
   );
 }
