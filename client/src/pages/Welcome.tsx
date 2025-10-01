@@ -62,11 +62,13 @@ export default function Welcome() {
           <Button
             onClick={handleExploreCatalog}
             size="lg"
-            className="group relative px-10 py-6 bg-primary text-primary-foreground font-semibold text-lg rounded-full shadow-2xl hover:shadow-primary/50 transition-all duration-300"
+            className="group relative px-10 py-6 bg-transparent border-2 border-white text-white font-semibold text-lg rounded-full shadow-2xl hover:bg-white/10 hover:shadow-white/50 transition-all duration-300 flex items-center justify-center"
             data-testid="button-explore-catalog"
           >
-            Explore Catalog
-            <ArrowRight className="ml-3 group-hover:translate-x-1 transition-transform" />
+            <span className="transition-transform duration-300 group-hover:scale-110">
+              Explore Catalog
+            </span>
+            <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:translate-x-1" />
           </Button>
         </motion.div>
       </motion.div>
