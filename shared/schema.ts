@@ -6,6 +6,7 @@ export const categorySchema = z.object({
   name: z.string(),
   slug: z.string(),
   icon: z.string().optional(),
+  imageUrl: z.string().optional(),
   displayOrder: z.number().default(0),
 });
 

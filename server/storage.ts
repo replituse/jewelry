@@ -18,6 +18,7 @@ export interface IStorage {
   getCategories(): Promise<Category[]>;
   getCategoryBySlug(slug: string): Promise<Category | null>;
   createCategory(category: InsertCategory): Promise<Category>;
+  updateCategory(slug: string, updates: Partial<InsertCategory>): Promise<Category>;
 
   // Product methods
   getProducts(category?: string): Promise<Product[]>;
@@ -79,6 +80,23 @@ export class MongoDBStorage implements IStorage {
     return {
       ...category,
       _id: objectIdToString(result.insertedId),
+    } as Category;
+  }
+
+  async updateCategory(slug: string, updates: Partial<InsertCategory>): Promise<Category> {
+    const result = await this.db.collection("categories").findOneAndUpdate(
+      { slug },
+      { $set: updates },
+      { returnDocument: "after" }
+    );
+
+    if (!result) {
+      throw new Error("Category not found");
+    }
+
+    return {
+      ...result,
+      _id: objectIdToString(result._id),
     } as Category;
   }
 

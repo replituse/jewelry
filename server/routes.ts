@@ -51,6 +51,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/categories/:slug", async (req, res) => {
+    try {
+      const category = await getStorage().updateCategory(req.params.slug, req.body);
+      res.json(category);
+    } catch (error) {
+      res.status(400).json({ message: "Failed to update category" });
+    }
+  });
+
   // Products endpoints
   app.get("/api/products", async (req, res) => {
     try {
